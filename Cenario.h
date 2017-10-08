@@ -18,6 +18,7 @@ public:
     void adicionarObjeto(Objeto* o);
     void modelar();
     void resetar();
+    void freeMemory();
 };
 
 #endif // CENARIO_H

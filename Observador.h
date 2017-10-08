@@ -24,6 +24,9 @@ public:
     int Nx, Ny;
     float w, h;
     Vertice*** cores;
+
+    void resetCores();
+    void freeMemory();
 };
 
 #endif // OBSERVADOR_H

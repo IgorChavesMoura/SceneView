@@ -65,8 +65,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){
+
+    o->freeMemory();
+    c->freeMemory();
+
     delete ui;
 }
 
@@ -81,6 +84,8 @@ void MainWindow::raycast(){
     graphic->addPixmap(QPixmap::fromImage(image));
     ui->graphicsView->setScene(graphic);
     o->cameraMundo(c);
+
+    o->resetCores();
 }
 
 QImage MainWindow::matrizDePixels(Observador* o, int Nx, int Ny)

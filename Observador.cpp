@@ -15,40 +15,12 @@ Observador::Observador(Vertice *pos, Vertice *lookAt, Vertice *viewUp, int Nx, i
     this->h = h;
     distancia = dist;
 
-/*
-    K = posicao->diferencaVetorial(lookAt);
-    K->normalizar();
-
-    //cout << K->x << " " << K->y << " " << K->z << endl;
-
-    viewUp = viewUp->diferencaVetorial(posicao);
-    I = viewUp->produtoVetorial(K);
-    //cout << I->x << " " << I->y << " " << I->z << endl;
-    I->normalizar();
-    //cout << I->x << " " << I->y << " " << I->z << endl;
-
-    J = K->produtoVetorial(I);
-
-    Tcm[0][0] = I->x; Tcm[0][1] = J->x; Tcm[0][2] = K->x; Tcm[0][3] = posicao->x;
-    Tcm[1][0] = I->y; Tcm[1][1] = J->y; Tcm[1][2] = K->y; Tcm[1][3] = posicao->y;
-    Tcm[2][0] = I->z; Tcm[2][1] = J->z; Tcm[2][2] = K->z; Tcm[2][3] = posicao->z;
-    Tcm[3][0] = 0;    Tcm[3][1] = 0;    Tcm[3][2] = 0;    Tcm[3][3] = 1;
-
-    Tmc[0][0] = I->x; Tmc[0][1] = I->y; Tmc[0][2] = I->z; Tmc[0][3] = -posicao->produtoEscalar(I);
-    Tmc[1][0] = J->x; Tmc[1][1] = J->y; Tmc[1][2] = J->z; Tmc[1][3] = -posicao->produtoEscalar(J);
-    Tmc[2][0] = K->x; Tmc[2][1] = K->y; Tmc[2][2] = K->z; Tmc[2][3] = -posicao->produtoEscalar(K);
-    Tmc[3][0] = 0;    Tmc[3][1] = 0;    Tmc[3][2] = 0;    Tmc[3][3] = 1;
 
 
-    //cout << Tmc[3][3] << endl;
-    /*for( int i=0; i<4; i++ ){
-        for( int j=0; j<4; j++ )
-            cout << i << " " << j << " " << " " << Tmc[i][j] << endl;
-    }*/
-    //calcularIJK();
     cores = new Vertice**[Nx];
-    for( int i=0; i<Nx; i++ )
+    for( int i=0; i<Nx; i++ ){
         cores[i] = new Vertice*[Ny];
+    }
 }
 void Observador::calcularIJK(){
     K = posicao->diferencaVetorial(lookAt);
@@ -244,4 +216,38 @@ void Observador::calcularCor(Vertice *PI, Face *f, int i, int j, FonteLuminosa *
 
     amb = amb->somaVetorial(dif);
     cores[i][j] = amb->somaVetorial(esp);
+}
+
+void Observador::resetCores(){
+    /*for(int i = 0; i < Nx; cores++){
+        for(int j = 0; j < Ny; j++){
+            delete cores[i][j];
+        }
+    }
+    delete cores;*/
+
+    cores = new Vertice**[Nx];
+    for( int i=0; i<Nx; i++ ){
+        cores[i] = new Vertice*[Ny];
+    }
+}
+
+void Observador::freeMemory(){
+    delete posicao;
+    delete lookAt;
+    delete viewUp;
+
+    delete I;
+    delete J;
+    delete K;
+
+    delete Tcm;
+    delete Tmc;
+
+    for(int i = 0; i < Nx; cores++){
+        for(int j = 0; j < Ny; j++){
+            delete cores[i][j];
+        }
+    }
+    delete cores;
 }
